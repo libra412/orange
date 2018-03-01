@@ -2,6 +2,7 @@ package iof
 
 import (
 	"io/ioutil"
+	"net/http"
 	"os"
 )
 
@@ -18,6 +19,11 @@ func Read(file_path string) string {
 
 //read the file by the url
 func ReadUrl(file_url string) string {
-	//TODO
-	return ""
+	resp, err := http.Get(file_url)
+	if err != nil {
+		panic(err)
+	}
+	defer resp.Body.Close()
+	fd, err := ioutil.ReadAll(resp.Body)
+	return string(fd)
 }
