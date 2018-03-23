@@ -1,9 +1,12 @@
 package iof
 
 import (
+	"bufio"
+	"io"
 	"io/ioutil"
 	"net/http"
 	"os"
+	"strings"
 )
 
 //read by the file path
@@ -26,4 +29,25 @@ func ReadUrl(file_url string) string {
 	defer resp.Body.Close()
 	fd, err := ioutil.ReadAll(resp.Body)
 	return string(fd)
+}
+
+//read file by line and handler func to do it.
+func ReadLine(fileName string, handler func(string)) error {
+	f, err := os.Open(fileName)
+	if err != nil {
+		return err
+	}
+	buf := bufio.NewReader(f)
+	for {
+		line, err := buf.ReadString('\n')
+		line = strings.TrimSpace(line)
+		handler(line)
+		if err != nil {
+			if err == io.EOF {
+				return nil
+			}
+			return err
+		}
+	}
+	return nil
 }
