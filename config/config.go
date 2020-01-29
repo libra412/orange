@@ -1,5 +1,14 @@
 package config
 
+import (
+	"flag"
+	"fmt"
+	"gopkg.in/yaml.v2"
+	"io/ioutil"
+	"os"
+	"path"
+)
+
 //
 type ConfigInfo struct {
 	Server *serverModel `yaml:"server"`
