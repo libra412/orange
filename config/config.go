@@ -9,27 +9,48 @@ import (
 	"path"
 )
 
-//
+// 自动加载配置项
 type ConfigInfo struct {
-	Server *serverModel `yaml:"server"`
-	Wechat *wechatModel `yaml:"wechat"`
+	Server   *serverModel   `yaml:"server"`
+	Wechat   *wechatModel   `yaml:"wechat"`
+	DataBase *dataBaseModel `yaml:"database"`
+	MQ       *mqModel       `yaml:"mq"`
 }
 
-//
+// 服务器配置项
 type serverModel struct {
 	Mode string `yaml:"mode"` // run mode
 	Host string `yaml:"host"` // server host
 	Port string `yaml:"port"` // server port
 }
 
-//
+// 微信配置项
 type wechatModel struct {
 	AppID     string `yaml:"appID"`
 	AppSecret string `yaml:"appSecret"`
 }
 
+// 数据库配置项
+type dataBaseModel struct {
+	Host     string `yaml:"host"`
+	Port     string `yaml:"port"`
+	Username string `yaml:"username"`
+	Password string `yaml:"password"`
+	Dbname   string `yaml:"dbname"`
+}
+
+// 消息队列配置项
+type mqModel struct {
+	Host     string `yaml:"host"`
+	Port     string `yaml:"port"`
+	Username string `yaml:"username"`
+	Password string `yaml:"password"`
+}
+
+//
 var Config ConfigInfo
 
+// 加载配置
 func loadConfigInformation(fPath string) error {
 	filePath := path.Join(fPath, "config.yaml")
 	configData, err := ioutil.ReadFile(filePath)
