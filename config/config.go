@@ -15,6 +15,7 @@ type ConfigInfo struct {
 	Wechat   *wechatModel   `yaml:"wechat"`
 	DataBase *dataBaseModel `yaml:"database"`
 	MQ       *mqModel       `yaml:"mq"`
+	Email    *emailModel    `yaml:"email"`
 }
 
 // 服务器配置项
@@ -44,6 +45,14 @@ type mqModel struct {
 	Host     string `yaml:"host"`
 	Port     string `yaml:"port"`
 	Username string `yaml:"username"`
+	Password string `yaml:"password"`
+}
+
+// 邮箱服务配置
+type emailModel struct {
+	Host     string `yaml:"host"`
+	Port     string `yaml:"port"`
+	User     string `yaml:"user"`
 	Password string `yaml:"password"`
 }
 
