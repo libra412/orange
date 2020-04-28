@@ -38,6 +38,7 @@ type dataBaseModel struct {
 	Username string `yaml:"username"`
 	Password string `yaml:"password"`
 	Dbname   string `yaml:"dbname"`
+	Dburl    string `yaml:"dburl"`
 }
 
 // 消息队列配置项
