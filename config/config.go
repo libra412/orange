@@ -33,16 +33,17 @@ type wechatModel struct {
 
 // 数据库配置项
 type dataBaseModel struct {
+	Dburl    string `yaml:"dburl"`
 	Host     string `yaml:"host"`
 	Port     string `yaml:"port"`
 	Username string `yaml:"username"`
 	Password string `yaml:"password"`
 	Dbname   string `yaml:"dbname"`
-	Dburl    string `yaml:"dburl"`
 }
 
 // 消息队列配置项
 type mqModel struct {
+	MqUrl    string `yaml:"mqurl"`
 	Host     string `yaml:"host"`
 	Port     string `yaml:"port"`
 	Username string `yaml:"username"`
