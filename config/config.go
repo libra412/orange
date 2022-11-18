@@ -2,8 +2,8 @@ package config
 
 import (
 	"flag"
-	"fmt"
 	"io/ioutil"
+	"log"
 	"os"
 	"path"
 
@@ -15,6 +15,7 @@ type configInfo struct {
 	Server   *serverModel   `yaml:"server"`
 	Wechat   *wechatModel   `yaml:"wechat"`
 	DataBase *dataBaseModel `yaml:"database"`
+	Redis    *redisModel    `yaml:"redis"`
 	MQ       *mqModel       `yaml:"mq"`
 	Email    *emailModel    `yaml:"email"`
 }
@@ -42,6 +43,13 @@ type dataBaseModel struct {
 	Dbname   string `yaml:"dbname"`
 }
 
+// redis配置项
+type redisModel struct {
+	redisUrl string `yaml:"redisUrl"`
+	Password string `yaml:"password"`
+	Db       int    `yaml:"db"`
+}
+
 // 消息队列配置项
 type mqModel struct {
 	MqUrl    string `yaml:"mqurl"`
@@ -67,12 +75,12 @@ func loadConfigInformation(fPath string) error {
 	filePath := path.Join(fPath, "config.yaml")
 	configData, err := ioutil.ReadFile(filePath)
 	if err != nil {
-		fmt.Printf(" config file read failed: %s", err)
+		log.Printf(" config file read failed: %s", err)
 		return err
 	}
 	err = yaml.Unmarshal(configData, &Config)
 	if err != nil {
-		fmt.Printf(" config parse failed: %s", err)
+		log.Printf(" config parse failed: %s", err)
 		return err
 	}
 	return nil
@@ -89,7 +97,7 @@ func LoadConfig() {
 	configPath := flag.String("c", fPath, "config file path")
 	flag.Parse()
 	err = loadConfigInformation(*configPath)
-	// fmt.Printf("%+v\n%+v",Config.Server, Config.Wechat)
+	// log.Printf("%+v\n%+v",Config.Server, Config.Wechat)
 	if err != nil {
 		panic(err)
 		return
