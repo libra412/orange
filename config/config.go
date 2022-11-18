@@ -3,14 +3,15 @@ package config
 import (
 	"flag"
 	"fmt"
-	"gopkg.in/yaml.v2"
 	"io/ioutil"
 	"os"
 	"path"
+
+	"gopkg.in/yaml.v2"
 )
 
 // 自动加载配置项
-type ConfigInfo struct {
+type configInfo struct {
 	Server   *serverModel   `yaml:"server"`
 	Wechat   *wechatModel   `yaml:"wechat"`
 	DataBase *dataBaseModel `yaml:"database"`
@@ -59,7 +60,7 @@ type emailModel struct {
 }
 
 //
-var Config ConfigInfo
+var Config configInfo
 
 // 加载配置
 func loadConfigInformation(fPath string) error {
@@ -67,7 +68,6 @@ func loadConfigInformation(fPath string) error {
 	configData, err := ioutil.ReadFile(filePath)
 	if err != nil {
 		fmt.Printf(" config file read failed: %s", err)
-		os.Exit(-1)
 		return err
 	}
 	err = yaml.Unmarshal(configData, &Config)
@@ -76,6 +76,10 @@ func loadConfigInformation(fPath string) error {
 		return err
 	}
 	return nil
+}
+
+func init() {
+	LoadConfig()
 }
 
 func LoadConfig() {
@@ -87,6 +91,7 @@ func LoadConfig() {
 	err = loadConfigInformation(*configPath)
 	// fmt.Printf("%+v\n%+v",Config.Server, Config.Wechat)
 	if err != nil {
+		panic(err)
 		return
 	}
 }
